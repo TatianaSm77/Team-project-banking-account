@@ -7,17 +7,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CreditAccountTest {
     @Test
-    public void shouldAddToPositiveBalance() {
+    public void shouldAddToPositiveBalanceWhenInitialBalanceZero() {
         CreditAccount account = new CreditAccount(0, 5_000, 15);
         account.add(3_000);
         Assertions.assertEquals(3_000, account.getBalance());
     }
 
     @Test
-    public void shouldAddToNegativeBalance() {
-        CreditAccount account = new CreditAccount(0, 5_000, 15);
-        account.add(-2_000);
-        Assertions.assertEquals(0, account.getBalance());
+    public void shouldAddToPositiveBalance() {
+        CreditAccount account = new CreditAccount(1000, 5_000, 15);
+        account.add(3_000);
+        Assertions.assertEquals(4_000, account.getBalance());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void testPositiveBalanceAfterAmount() {
+    public void testPositiveBalanceAfterMakingPurchaseWithinCreditLimit() {
         CreditAccount account = new CreditAccount(1000, 5000, 15);
         account.pay(999);
         Assertions.assertEquals(1, account.getBalance());
@@ -50,16 +50,23 @@ public class CreditAccountTest {
 
     @Test
     public void testZeroBalanceAfterFullAmount() {
-        CreditAccount account = new CreditAccount(2000, 5000, 15);
-        account.pay(2000);
+        CreditAccount account = new CreditAccount(1000, 5000, 15);
+        account.pay(1000);
         Assertions.assertEquals(0, account.getBalance());
+    }
+    @Test
+    public void negativeBalanceAfterAmount() {
+        CreditAccount account = new CreditAccount(1_000, 5_000, 15);
+        account.pay(5_000);
+
+        Assertions.assertEquals(-4_000, account.getBalance());
     }
 
     @Test
-    public void testNegativeBalanceAfterOverdraft() {
-        CreditAccount account = new CreditAccount(2000, 5000, 15);
+    public void testNegativeBalanceAfterPurchaseOverCreditLimit() {
+        CreditAccount account = new CreditAccount(1000, 5000, 15);
         account.pay(8000);
-        Assertions.assertEquals(2000, account.getBalance());
+        Assertions.assertEquals(1000, account.getBalance());
     }
 
 
