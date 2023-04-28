@@ -54,6 +54,7 @@ public class CreditAccountTest {
         account.pay(1000);
         Assertions.assertEquals(0, account.getBalance());
     }
+
     @Test
     public void negativeBalanceAfterAmount() {
         CreditAccount account = new CreditAccount(1_000, 5_000, 15);
@@ -93,19 +94,29 @@ public class CreditAccountTest {
 
 
     @Test
-    public void testYearChangeWithNegativeBalanceWhenPayFullAmount() {
-        CreditAccount account = new CreditAccount(2_000, 5_000, 15);
-        account.pay(3_000);
+    public void testYearChangeWithNegativeBalance() {
 
-        Assertions.assertEquals(-315, account.yearChange());
+        CreditAccount account = new CreditAccount(-200, 5000, 15);
+        int result = account.yearChange();
+        Assertions.assertEquals(-30, result);
     }
 
     @Test
     public void testYearChangeWithPositiveBalance() {
-        CreditAccount account = new CreditAccount(2_000, 5_000, 15);
-        account.pay(1500);
 
-        Assertions.assertEquals(0, account.yearChange());
+        CreditAccount account = new CreditAccount(200, 5000, 15);
+        int result = account.yearChange();
+        Assertions.assertEquals(0, result);
+    }
+
+    @Test
+    public void testYearChangeWithZeroBalance() {
+
+        CreditAccount account = new CreditAccount(0, 5000, 15);
+        int result = account.yearChange();
+        Assertions.assertEquals(0, result);
     }
 
 }
+
+
