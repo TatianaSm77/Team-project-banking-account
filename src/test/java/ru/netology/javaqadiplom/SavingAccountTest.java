@@ -310,7 +310,7 @@ public class SavingAccountTest {
     //// Баг № 11 - Переменная rate в функции yearChange не имеет ограничение на максимально допустимое значение
     public void yearChangeTestThirtySeventh() {
         SavingAccount savingAccount = new SavingAccount(35_000, 500, 500_000, 1060);
-        Assertions.assertEquals(371_000, savingAccount.yearChange());
+        Assertions.assertEquals(0, savingAccount.yearChange());
     }
 }
 
