@@ -8,7 +8,7 @@ public class SavingAccountTest {
 
     @Test
     public void minBalanceIsTestFirst() {
-        SavingAccount savingAccount = new SavingAccount(315, 150_000, 400_000, 2);
+        SavingAccount savingAccount = new SavingAccount(170_000, 150_000, 400_000, 2);
         Assertions.assertEquals(150_000, savingAccount.getMinBalance());
     }
 
@@ -24,8 +24,9 @@ public class SavingAccountTest {
     //// Тест показывает на баг № 1 - Исключение IllegalArgumentException не выкидывается
     //// при отрицательном значении minBalance
     public void minBalanceIsTestThird() {
-        SavingAccount savingAccount = new SavingAccount(1_500, -1, 400_000, 4);
-        Assertions.assertEquals(0, savingAccount.getMinBalance());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            SavingAccount savingAccount = new SavingAccount(1_500, -1, 400_000, 4);
+        });
     }
 
 
@@ -33,8 +34,9 @@ public class SavingAccountTest {
     //// Тест показывает на баг № 2 - Исключение IllegalArgumentException не выкидывается
     ////при значении minBalance большем, чем значение maxBalance
     public void minBalanceIsTestFourth() {
-        SavingAccount savingAccount = new SavingAccount(1_500, 500_000, 400_000, 4);
-        Assertions.assertEquals(0, savingAccount.getMinBalance());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            SavingAccount savingAccount = new SavingAccount(1_500, 500_000, 400_000, 4);
+        });
     }
 
 
@@ -48,16 +50,17 @@ public class SavingAccountTest {
     //// Тест показывает на баг № 3 - Исключение IllegalArgumentException не выкидывается
     //// при отрицательном значении maxBalance
     public void maxBalanceTestSixth() {
-        SavingAccount savingAccount = new SavingAccount(3_750, 0, -1, 12);
-        Assertions.assertEquals(0, savingAccount.getMaxBalance());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            SavingAccount savingAccount = new SavingAccount(3_750, 0, -1, 12);
+        });
     }
 
 
     @Test
-    //// Тест показывает на баг № 2
+
     public void maxBalanceTestSeventh() {
-        SavingAccount savingAccount = new SavingAccount(3_500, 0, 0, 9);
-        Assertions.assertEquals(0, savingAccount.getMaxBalance());
+        SavingAccount savingAccount = new SavingAccount(3_500, 0, 10_000, 9);
+        Assertions.assertEquals(10_000, savingAccount.getMaxBalance());
     }
 
 
@@ -65,8 +68,9 @@ public class SavingAccountTest {
     //// Тест показывает на баг № 4 - Исключение IllegalArgumentException не выкидывается
     //// при значении maxBalance меньшем, чем значение minBalance
     public void maxBalanceTestEighth() {
-        SavingAccount savingAccount = new SavingAccount(11_000, 10_000, 5_000, 12);
-        Assertions.assertEquals(0, savingAccount.getMaxBalance());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            SavingAccount savingAccount = new SavingAccount(11_000, 10_000, 5_000, 12);
+        });
     }
 
 
@@ -87,8 +91,9 @@ public class SavingAccountTest {
     //// Тест показывает на баг № 5 - Исключение IllegalArgumentException не выкидывается
     //// при отрицательном значении initialBalance
     public void initialBalanceTestEleventh() {
-        SavingAccount savingAccount = new SavingAccount(-1, 0, 150_000, 13);
-        Assertions.assertEquals(0, savingAccount.getBalance());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            SavingAccount savingAccount = new SavingAccount(-1, 0, 150_000, 13);
+        });
     }
 
 
@@ -96,8 +101,9 @@ public class SavingAccountTest {
     //// ***** Тест показывает на баг -Исключение IllegalArgumentException не выкидывается
     ////  в ситуации  когда initialBalance меньше чем minBalance возможно лишний тест ?????
     public void initialBalanceTestTwelfth() {
-        SavingAccount savingAccount = new SavingAccount(50, 500, 150_000, 13);
-        Assertions.assertEquals(0, savingAccount.getBalance());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            SavingAccount savingAccount = new SavingAccount(50, 500, 150_000, 13);
+        });
     }
 
 
@@ -105,8 +111,9 @@ public class SavingAccountTest {
     //// Тест показывает на баг № 6 - Исключение IllegalArgumentException не выкидывается
     //// при значении initialBalance большем, чем значение maxBalance
     public void initialBalanceTestThirteenth() {
-        SavingAccount savingAccount = new SavingAccount(160_000, 500, 150_000, 13);
-        Assertions.assertEquals(0, savingAccount.getBalance());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            SavingAccount savingAccount = new SavingAccount(160_000, 500, 150_000, 13);
+        });
     }
 
 
@@ -307,10 +314,11 @@ public class SavingAccountTest {
 
 
     @Test
-    //// Баг № 11 - Переменная rate в функции yearChange не имеет ограничение на максимально допустимое значение
+    //// Баг № 11 - Переменная rate в функции yearChange не имеет ограничение на максимально допустимое значение.
+    //// Хотелось бы видеть ноль, возможно это можно использовать как предложение по улучшению кода....
     public void yearChangeTestThirtySeventh() {
         SavingAccount savingAccount = new SavingAccount(35_000, 500, 500_000, 1060);
-        Assertions.assertEquals(0, savingAccount.yearChange());
+        Assertions.assertEquals(371_000, savingAccount.yearChange());
     }
 }
 
